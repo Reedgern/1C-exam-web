@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/1C-exam-web/static/css/main.10022e4c.css",
-    "main.js": "/1C-exam-web/static/js/main.366db993.js",
-    "static/js/787.28cb0dcd.chunk.js": "/1C-exam-web/static/js/787.28cb0dcd.chunk.js",
-    "index.html": "/1C-exam-web/index.html",
-    "main.10022e4c.css.map": "/1C-exam-web/static/css/main.10022e4c.css.map",
-    "main.366db993.js.map": "/1C-exam-web/static/js/main.366db993.js.map",
-    "787.28cb0dcd.chunk.js.map": "/1C-exam-web/static/js/787.28cb0dcd.chunk.js.map"
+    "main.css": "/static/css/main.f429d831.css",
+    "main.js": "/static/js/main.33564d68.js",
+    "static/js/787.28cb0dcd.chunk.js": "/static/js/787.28cb0dcd.chunk.js",
+    "index.html": "/index.html",
+    "main.f429d831.css.map": "/static/css/main.f429d831.css.map",
+    "main.33564d68.js.map": "/static/js/main.33564d68.js.map",
+    "787.28cb0dcd.chunk.js.map": "/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.10022e4c.css",
-    "static/js/main.366db993.js"
+    "static/css/main.f429d831.css",
+    "static/js/main.33564d68.js"
   ]
 }
