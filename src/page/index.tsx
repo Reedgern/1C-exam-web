@@ -23,10 +23,6 @@ const Page = memo(() => {
 
 export const App = () => {
   return (
-      // <Routes>
-      //   <Route path=':imageUrl?' element={<Page />}>
-      //   </Route>
-      // </Routes>
       <Page />
   );
 }
