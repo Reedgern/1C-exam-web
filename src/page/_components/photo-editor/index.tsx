@@ -1,28 +1,50 @@
-import { memo, useCallback, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import AvatarEditor from 'react-avatar-editor'
 import { Button, Slider, Typography } from "@mui/material";
 import fileDownload from 'js-file-download'
 import { FileInput } from "../file-input";
 import styles from './index.module.scss';
 import classNames from "classnames/bind";
+import { readFile } from "./_utils/read-file";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { TelegramShareButton, TelegramIcon } from 'react-share'
 
 const cn = classNames.bind(styles);
 
 const BLOCK_NAME = 'Photo-editor';
 
-function readFile(file: any) {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => resolve(reader.result), false)
-    reader.readAsDataURL(file)
-  });
+type PropsType = {
+  id?: string;
 }
 
 const INFO_TEXT = 'Чтобы начать работать с редактором, нужно загрузить фото с Вашего устройства.'
 
 
-export const PhotoEditor = memo(() => {
+export const PhotoEditor = memo(({ id }: PropsType) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getRequest = async () => {
+      if (!id) {
+        return;
+      }
+
+      const { data } = await axios.get(`http://localhost:8081/image?id=${id}`);
+
+      if (!data.error) {
+        setImageSrc(decodeURIComponent(data.data.dataUrl));
+      }
+      else {
+        navigate('/');
+
+      }
+    }
+
+    getRequest();
+  }, [id, navigate]);
 
   const editorRef = useRef<any>(null);
 
@@ -37,17 +59,48 @@ export const PhotoEditor = memo(() => {
     []);
 
   const handleSaveClick = useCallback(() => {
-    if (editorRef) {
+    if (editorRef.current) {
       const canvasScaled: HTMLCanvasElement = editorRef.current.getImageScaledToCanvas();
 
-      canvasScaled?.toBlob((blob) => {
+      canvasScaled?.toBlob(async (blob) => {
         if (blob) {
           const date = new Date().toISOString();
           fileDownload(blob, `edited-image-${date}.png`);
         }
       });
     }
+  }, []);
 
+  const handleShareMedia = useCallback(async () => {
+    if (editorRef.current) {
+      const canvasScaled: HTMLCanvasElement = editorRef.current.getImageScaledToCanvas();
+
+      canvasScaled?.toBlob(async (blob) => {
+        if (blob) {
+          const file = new File([blob], 'edited-image.png', {type: 'image/png'});
+
+          let formData = new FormData();
+          formData.append('blob', file);
+
+          const { data } = await axios.post('http://localhost:8081/image', formData, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+            },
+         });
+
+         console.log(data);
+        }
+      });
+
+      // const dataUrl = canvasScaled.toDataURL();
+
+      // const { data } = await axios.post('http://localhost:8081/image', { dataUrl: encodeURIComponent(dataUrl) });
+
+      // if (!data.error) {
+      //   console.log(data.data.id);
+      //   window.open(`http://localhost:3000/${data.data.id}`, '_blank');
+      // }
+    }
   }, []);
 
   const [zoom, setZoom] = useState<number | number[]>(1);
@@ -115,6 +168,7 @@ export const PhotoEditor = memo(() => {
       <FileInput text={'Поменять изображение'} onChange={handleFileChange} />
       <Button variant="contained" color="primary" onClick={handleSaveClick}>Сохранить</Button>
     </div>
+    <TelegramIcon round onClick={handleShareMedia} />
   </div>
   )
 })
