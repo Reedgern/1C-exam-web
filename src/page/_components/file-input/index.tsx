@@ -22,12 +22,9 @@ export const FileInput = memo(({onChange, text}: PropsType) => {
   }, []);
 
   return (
-    <div className={cn(BLOCK_NAME)}>
-        <input ref={inputRef} className={cn(`${BLOCK_NAME}__input`)} type="file" onChange={onChange} accept="image/*" />
-
-        <div>
-          <Button onClick={handleButtonClick} variant="contained" color="primary">{text}</Button>
-        </div>
-    </div>
+    <>
+      <input ref={inputRef} className={cn(`${BLOCK_NAME}__input`)} type="file" onChange={onChange} accept="image/*" />
+      <Button onClick={handleButtonClick} variant="contained" color="primary">{text}</Button>
+    </>
     )
 })

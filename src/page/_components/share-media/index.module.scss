@@ -1,0 +1,15 @@
+.Share-media {
+    margin-top: 8px;
+    align-self: flex-end;
+    display: flex;
+    gap: 12px;
+
+    &__icons {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__text {
+        align-self: center;
+    }
+}

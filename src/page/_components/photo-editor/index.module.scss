@@ -1,0 +1,45 @@
+.Photo-editor {
+    flex-grow: 1;
+
+    &__scrolls-container {
+        margin-bottom: 8px;
+    }
+
+    &__scroll-row {
+        display: flex;
+        gap: 20px;
+    }
+
+    &__buttons-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__share-media {
+        display: flex;
+        margin-top: 8px;
+        gap: 8px;
+        align-self: flex-end;
+    }
+
+    &__upload {
+        margin-top: 8px;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Photo-editor {
+        padding: 0 8px;
+
+        &__canvas {
+            max-width: 100%;
+        }
+
+        &__buttons-container {
+            flex-direction: column;
+            gap: 12px
+        }
+    }
+}
